@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="current_time">---</div>
+        <form action="">
+            <input type="button" value="START" id="start" /><br />
+            <input type="button" value="STOP" onClick="timer_stop();" id="stop" /><br />
+            <input type="button" value="RESET" onClick="timer_reset();" />
+        </form>
+    </div>
+    <style type="text/css">
+        #container {
+            width: 250px;
+            margin: 30px auto;
+            border: 1px solid #CCC;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        #current_time {
+            font-size: 36px;
+        }
+        
+        input[type="button"] {
+            width: 80px;
+        }
+    </style>
+    <script>
+        let work_time = 30;
+        const state = "work";
+        let timer;
+
+        function timer_start() {
+            document.getElementById("current_time").innerText = work_time;
+            timer = setInterval(time_count, 1000);
+            document.getElementById("start").disabled = true;
+        }
+
+        function timer_stop() {
+            clearInterval(timer);
+            document.getElementById("start").disabled = false;
+            document.getElementById("stop").disabled = false;
+        }
+
+        function timer_reset() {
+            clearInterval(timer);
+            work_time = 30;
+            document.getElementById("current_time").innerText = work_time;
+            document.getElementById("start").disabled = false;
+            document.getElementById("stop").disabled = false;
+        }
+
+        function time_count() {
+            work_time--;
+            document.getElementById("current_time").innerText = work_time;
+            if (work_time <= 0) {
+                clearInterval(timer);
+                if (state == "work") {
+                    document.getElementById("current_time").innerText = "終了：休憩！";
+                    document.getElementById("stop").disabled = true;
+                    state = "rest";
+                    work_time = 0;
+                } else if (state == "rest") {
+                    alert("再開!!!!");
+                    state = "work";
+                    work_time = 20;
+                    document.getElementById("current_time").innerText = work_time;
+                }
+                timer_start();
+            }
+        }
+        document.getElementById("start").addEventListener("click", function() {
+            timer_start();
+        });
+    </script>
+</body>
+
+</html>
