@@ -20,21 +20,26 @@
         #container {
             width: 250px;
             margin: 30px auto;
-            border: 1px solid #CCC;
+            border: 1px solid #ccc;
             text-align: center;
             padding: 10px;
         }
         
         #current_time {
-            font-size: 36px;
+            font-size: 42px;
         }
         
         input[type="button"] {
-            width: 80px;
+            width: 200px;
+            font-size: 16px;
+            border-radius: 0.3em;
+            padding: 10px;
+            margin: 2px 0;
+            cursor: pointer;
         }
     </style>
     <script>
-        let work_time = 30;
+        let work_time = 1500;
         const state = "work";
         let timer;
 
@@ -42,17 +47,18 @@
             document.getElementById("current_time").innerText = work_time;
             timer = setInterval(time_count, 1000);
             document.getElementById("start").disabled = true;
+            document.getElementById("stop").disabled = false;
         }
 
         function timer_stop() {
             clearInterval(timer);
             document.getElementById("start").disabled = false;
-            document.getElementById("stop").disabled = false;
+            document.getElementById("stop").disabled = true;
         }
 
         function timer_reset() {
             clearInterval(timer);
-            work_time = 30;
+            work_time = 1500;
             document.getElementById("current_time").innerText = work_time;
             document.getElementById("start").disabled = false;
             document.getElementById("stop").disabled = false;
@@ -64,7 +70,7 @@
             if (work_time <= 0) {
                 clearInterval(timer);
                 if (state == "work") {
-                    document.getElementById("current_time").innerText = "終了：休憩！";
+                    document.getElementById("current_time").innerText = "休憩！";
                     document.getElementById("stop").disabled = true;
                     state = "rest";
                     work_time = 0;
